@@ -4,6 +4,30 @@ REPO_URL="https://raw.githubusercontent.com/vlnd-net/tools/main/update_cleanup_m
 WEBMIN_SCRIPT="https://raw.githubusercontent.com/vlnd-net/Lemp/main/webmin.sh"
 LOCAL_SCRIPT="$0"
 
+
+##
+WHITETXT () {
+    echo -e "${WHITE}${1}${RESET}"
+}
+
+BLUETXT () {
+    echo -e "${BLUE}${1}${RESET}"
+}
+
+REDTXT () {
+    echo -e "${RED}${1}${RESET}"
+}
+
+GREENTXT () {
+    echo -e "${GREEN}${1}${RESET}"
+}
+
+YELLOWTXT () {
+    echo -e "${YELLOW}${1}${RESET}"
+}
+###
+
+
 check_update() {
     echo "Sprawdzanie aktualizacji..."
     TEMP_FILE=$(mktemp)
@@ -61,14 +85,14 @@ install_webmin() {
 }
 
 while true; do
-    clear
-    echo "Wybierz opcję:"
-    echo "1) Sprawdzenie aktualizacji skryptu"
-    echo "2) Aktualizacja pakietów"
-    echo "3) Usunięcie zbędnych plików log"
-    echo "4) Instalacja pakietów"
-    echo "5) Instalacja Webmina"
-    echo "6) Wyjście"
+
+    echo -e "${BOLD}${BLUE}=== MENU GŁÓWNE ===${RESET}"
+    echo "1) ${GREEN}Sprawdzenie aktualizacji skryptu${RESET}"
+    echo "2) ${YELLOW}Aktualizacja pakietów${RESET}"
+    echo "3) ${RED}Usunięcie zbędnych plików log${RESET}"
+    echo "4) ${BLUE}Instalacja pakietów${RESET}"
+    echo "5) ${WHITE}Instalacja Webmina${RESET}"
+    echo "6) ${RED}Wyjście${RESET}"
     read -p "Wybór: " choice
 
     case $choice in
