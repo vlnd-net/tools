@@ -1,15 +1,40 @@
 #!/bin/bash
 
+REPO_URL="https://raw.githubusercontent.com/vlnd-net/tools/f763eff7230e06a31980b6aee279b5a70cd3540a/update_cleanup_menu.sh"
+LOCAL_SCRIPT="$0"
+
+check_update() {
+    echo "Sprawdzanie aktualizacji..."
+    TEMP_FILE=$(mktemp)
+    curl -s "$REPO_URL" -o "$TEMP_FILE"
+
+    if ! diff -q "$TEMP_FILE" "$LOCAL_SCRIPT" &>/dev/null; then
+        echo "💡 Nowa wersja skryptu jest dostępna!"
+        read -p "Czy chcesz zaktualizować? (t/n): " update_choice
+        if [[ "$update_choice" == "t" ]]; then
+            mv "$TEMP_FILE" "$LOCAL_SCRIPT"
+            chmod +x "$LOCAL_SCRIPT"
+            echo "✅ Skrypt został zaktualizowany! Uruchom ponownie."
+            exit 0
+        fi
+    else
+        echo "✅ Skrypt jest aktualny."
+    fi
+    rm -f "$TEMP_FILE"
+}
+
 while true; do
     clear
     echo "Wybierz opcję:"
-    echo "1) Aktualizacja pakietów"
-    echo "2) Usunięcie zbędnych plików log"
-    echo "3) Wyjście"
+    echo "1) Sprawdzenie aktualizacji"
+    echo "2) Aktualizacja pakietów"
+    echo "3) Usunięcie zbędnych plików log"
+    echo "4) Wyjście"
     read -p "Wybór: " choice
 
     case $choice in
-        1)
+        1) check_update ;;
+        2)
             echo "Aktualizowanie pakietów..."
             if command -v apt &> /dev/null; then
                 sudo apt update && sudo apt upgrade -y
@@ -21,12 +46,12 @@ while true; do
                 echo "Nieznany menedżer pakietów."
             fi
             ;;
-        2)
+        3)
             echo "Usuwanie starych plików logów..."
             sudo find /var/log -type f -name "*.log" -mtime +7 -exec rm -f {} \;
             echo "Usunięto logi starsze niż 7 dni."
             ;;
-        3)
+        4)
             echo "Wyjście..."
             exit 0
             ;;
