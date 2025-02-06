@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPO_URL="https://raw.githubusercontent.com/vlnd-net/tools/refs/heads/main/update_cleanup_menu.sh"
+REPO_URL="https://raw.githubusercontent.com/vlnd-net/tools/main/update_cleanup_menu.sh"
 LOCAL_SCRIPT="$0"
 
 check_update() {
